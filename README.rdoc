@@ -1,3 +1,15 @@
-= private_repository
+= Private Repository plugin
 
-Adds ability to mark repositories as private
+Plugin for Redmine project that allows to make private repositories.
+It can be done via a checkbox at repositories settings.
+Also the plugin adds additional permission in order to control who can browse private repos.
+
+== Installation
+ cd /home/user/path_to_you_app
+ script/plugin install git://github.com/f0y/redmine_private_repository.git
+ rake db:migrate_plugins RAILS_ENV=production
+
+== Warning
+This plugin *cannot* *control* access to *subversion* repositories via *WebDAV* (/extra/svn/Redmine.pm)
+
+
