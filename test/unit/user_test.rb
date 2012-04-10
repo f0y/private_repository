@@ -11,7 +11,7 @@ class UserTest < ActiveSupport::TestCase
       @repository = @project.repository
     end
 
-    context "private repository" do
+    context "in private repository" do
       setup do
         @repository.is_private = true
         @repository.save!
@@ -47,10 +47,25 @@ class UserTest < ActiveSupport::TestCase
         should "not be allowed to view_changesets" do
           assert !@user.allowed_to?(:view_changesets, @project)
         end
+
+        should "not have access to controller actions allowed by browse_repository permission" do
+          Redmine::AccessControl.allowed_actions(:browse_repository).each do |path|
+            controller, action = path.split(/\//,2)
+            assert !@user.allowed_to?({:controller => controller, :action => action}, @project)
+          end
+        end
+
+        should "not have access to controller actions allowed by view_changesets permission" do
+          Redmine::AccessControl.allowed_actions(:view_changesets).each do |path|
+            controller, action = path.split(/\//,2)
+            assert !@user.allowed_to?({:controller => controller, :action => action}, @project)
+          end
+        end
+
       end
     end
 
-    context "not a private repository" do
+    context "in not a private repository" do
       context "without view_private_repositories permission" do
         setup do
           @dev_role.remove_permission!(:view_private_repositories)
@@ -63,6 +78,20 @@ class UserTest < ActiveSupport::TestCase
 
         should "be allowed to view_changesets" do
           assert @user.allowed_to?(:view_changesets, @project)
+        end
+
+        should "have access to controller actions allowed by browse_repository permission" do
+          Redmine::AccessControl.allowed_actions(:browse_repository).each do |path|
+            controller, action = path.split(/\//,2)
+            assert @user.allowed_to?({:controller => controller, :action => action}, @project)
+          end
+        end
+
+        should "have access to controller actions allowed by view_changesets permission" do
+          Redmine::AccessControl.allowed_actions(:view_changesets).each do |path|
+            controller, action = path.split(/\//,2)
+            assert @user.allowed_to?({:controller => controller, :action => action}, @project)
+          end
         end
 
       end
