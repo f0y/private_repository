@@ -1,14 +1,15 @@
 require 'redmine'
 
 require 'private_repository/repositories_helper_patch'
+require 'private_repository/user_patch'
 require 'dispatcher'
 
 Dispatcher.to_prepare :redmine_private_repository do
   unless RepositoriesHelper.included_modules.include? PrivateRepository::RepositoriesHelperPatch
     RepositoriesHelper.send(:include, PrivateRepository::RepositoriesHelperPatch)
   end
-  unless RepositoriesController.included_modules.include? PrivateRepository::RepositoriesControllerPatch
-    RepositoriesController.send(:include, PrivateRepository::RepositoriesControllerPatch)
+  unless User.included_modules.include? PrivateRepository::UserPatch
+    User.send(:include, PrivateRepository::UserPatch)
   end
 end
 
