@@ -27,11 +27,11 @@ module PrivateRepository
           (action.is_a?(Hash) && PrivateRepository::UserPatch.intercepted_actions.include?(action)) and
               context && context.is_a?(Project) and
               context.repository && context.repository.is_private
-        unless allowed_to?(:view_private_repositories, context, options={}, &block)
+        unless allowed_to?(:view_private_repositories, context, options, &block)
           return false
         end
       end
-      allowed_to_without_private_repository?(action, context, options={}, &block)
+      allowed_to_without_private_repository?(action, context, options, &block)
     end
 
   end

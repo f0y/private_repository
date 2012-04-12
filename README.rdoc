@@ -10,6 +10,6 @@ Also the plugin adds additional permission in order to control who can browse pr
  rake db:migrate_plugins RAILS_ENV=production
 
 == Warning
-This plugin *cannot* *control* access to *subversion* repositories via *WebDAV* (/extra/svn/Redmine.pm)
+This plugin *cannot* *control* access via *WebDAV* to *subversion* repositories  (/extra/svn/Redmine.pm)
 
 
